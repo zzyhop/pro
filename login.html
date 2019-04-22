@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 	导入顺序固定 -->
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <style>
+        .log-bg{
+             background: rgba(124,125,125,0.3);
+
+        }
+        .log-height{
+            height: 255px;
+        }
+
+    </style>
+</head>
+<body>
+<!-- <h3>好的代码像粥一样，都是用时间熬出来的</h3> -->
+<div class="container">
+    <div class=" m-auto w-50 log-bg">
+        <div class="text-center">欢迎登陆</div>
+        <div class=" text-center log-height  ">
+            <ul class=" nav m-auto nav-pills form-inline  ">
+                <li class="nav-item col-6 " ><a href="#img" class="nav-link active border-0  " data-toggle="pill">扫码登陆</a></li>
+                <li class="nav-item col-6" ><a href="#input" class="nav-link border-0" data-toggle="pill">账号登陆</a></li>
+            </ul>
+            <div class="tab-content  text-center mt-2 ">
+                <div  id="img" class="tab-pane active "><img src="./img/二维码.png" alt="" class="w-25 "/>
+                    <p  class="col-12 mt-1">打开手机扫码</p>
+                    <ul class="list-unstyled row font-weight-light ">
+                        <li class="col-3 offset-1 "  >面输入</li>
+                        <li class="col-3">跟快</li>
+                        <li class="col-3">跟安全</li>
+                    </ul>
+                </div>
+
+                <div id="input" class="tab-pane p-4 ">
+                    <input type="text" placeholder="输入用户名" class="form-control col-12" id="uname" name="uname"/>
+                    <input type="password" placeholder="密码" class="form-control col-12  mt-2" id="upwd" name="upwd"/>
+                    <p ><a href="#" class="col-4 offset-8 ">忘记密码？</a></p>
+                    <button  class="btn btn-danger  col-12 " onclick="login()">登录</button>
+
+                </div>
+            </div>
+        </div>
+        <div>
+            <ul class="form-inline list-unstyled">
+                <li class="col-2 pr-0 text-center" ><a href="#">qq</a></li>
+                <li class="col-1   "><span>|</span></li>
+                <li class="col-2 pl-0 text-center"><a href="#">微信</a></li>
+                <li class="col-3 offset-4"><a href="http://127.0.0.1:8050/register.html">快速注册</a></li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+
+
+    <script>
+
+    function login(){
+
+        if(!uname.value){
+           alert("用户不为空")
+            return;
+        }
+        if(!upwd.value){
+            alert("密码不为空")
+            return;
+        }
+        //创建对象
+        var xhr=new XMLHttpRequest();
+        //打开连接
+
+        xhr.open("post","/user/login",true)
+        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded")
+        //发送请求
+        var formdata="uname="+uname.value+"&upwd="+upwd.value;
+        console.log(formdata)
+        xhr.send(formdata)
+        //响应
+
+        xhr.onreadystatechange=function(){
+
+            if (xhr.readyState==4&&xhr.status==200){
+                var result=xhr.responseText;
+              console.log(result)
+                //把传回来的json字符串转为js对象数组
+                if(result=="不存在用户"){
+                    alert("登录失败");
+                    return;
+                } else if (result=="密码错误"){
+                    alert("密码错误");
+                    return;
+                }else{
+                alert("登录成功");
+                return;
+            }
+
+
+            }
+        }
+    }
+</script>
+
+
+</body>
+</html>
