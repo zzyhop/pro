@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 	导入顺序固定 -->
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <style>
+        .register-bg{
+            background: rgba(125,125,125,0.25);
+        }
+        .container{
+            width: 500px;
+        }
+        p{
+            font-size: 14px;
+            margin: 0;
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+<div class="container register-bg">
+    <h3 class="text-center">用户注册页面</h3>
+    <div class="form-inline ">
+        <div class="col-12 pb-4">
+            <div class="form-inline">
+            <p class="col-2 text-muted   "> 用户：</p>
+            <input type="text" class="form-control col-6" onfocus="text_focus()"/>
+            <p class="col-3 " id="user_prompt"></p>
+            </div>
+        </div>
+        <div  class="col-12 pb-4">
+            <div class="form-inline">
+            <p class="col-2 text-muted"> 密码：</p>
+            <input type="text" class="form-control col-6"/>
+            <p class="col-3  " id="upwd_prompt"></p>
+            </div>
+        </div>
+        <div  class="col-12 pb-4">
+            <div class="form-inline">
+            <p class="col-2 text-muted"> 邮箱：</p>
+            <input type="text" class="form-control col-6"/>
+            <p class="col-3" id="email_prompt"></p>
+            </div>
+        </div>
+        <div  class="col-12 pb-4">
+            <div class="form-inline">
+            <p class="col-2 text-muted"> 手机：</p>
+            <input type="text" class="form-control col-6"/>
+            <p class="col-3 " id="phone_prompt"></p>
+            </div>
+        </div>
+        <botton class="btn btn-info col-9 offset-2">提交</botton>
+    </div>
+
+</div>
+<script>
+    function text_focus(){
+        user_prompt.innerHTML="用户名在6-12位";
+
+    }
+    function text_blur(){
+        if (uname.value=="")
+        {
+            uname_s.innerHTML="用户名不能为空"
+        }}
+    function login(){
+
+        if(!uname.value){
+            uname_s.innerHTML="用户名不能为空"
+            return;
+        }
+        if(!upwd.value){
+            alert("密码不为空")
+            return;
+        }
+        //创建对象
+        var xhr=new XMLHttpRequest();
+        //打开连接
+
+        xhr.open("post","/user/login",true)
+        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded")
+        //发送请求
+        var formdata="uname="+uname.value+"&upwd="+upwd.value;
+        console.log(formdata)
+        xhr.send(formdata)
+        //响应
+
+        xhr.onreadystatechange=function(){
+
+            if (xhr.readyState==4&&xhr.status==200)
+            {
+                var result=xhr.responseText;
+
+                //把传回来的json字符串转为js对象数组
+                if(result=="不存在用户"){
+                    alert("登录失败")
+                }else if(result==formdata){
+                    alert("登录成功")
+                }
+
+
+            }
+        }
+    }
+</script>
+</body>
+</html>
